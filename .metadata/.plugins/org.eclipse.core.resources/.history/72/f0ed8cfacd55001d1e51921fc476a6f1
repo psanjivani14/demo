@@ -1,0 +1,54 @@
+package com.example.demo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.exceptions.CompanyCodeAlreadyExistsException;
+import com.example.demo.model.Company;
+import com.example.demo.repository.CompanyRepository;
+
+@Service
+public class CompanyServiceImpl implements CompanyService{
+
+	@Autowired
+	private CompanyRepository companyRepo;
+	
+	
+	@Override
+	public List<Company> getAllCompanyDtl() {
+		
+		List<Company> companyLst = companyRepo.findAll();
+		if(companyLst!=null && !companyLst.isEmpty()) {
+			System.out.println("companyLst:  "+companyLst.toString());
+			return companyLst;
+		}
+		return null;
+	}
+
+	@Override
+	public Company addCompany(Company company) throws CompanyCodeAlreadyExistsException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteCompany(int compCode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateCompany(Company company) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Company getCompanyByCode(int compCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,9 @@
+package com.example.demo.service;
+
+import java.util.Set;
+
+public interface StockService {
+	
+	public Set<Stock> getAllStock(int compId);
+
+}

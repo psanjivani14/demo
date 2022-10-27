@@ -1,0 +1,47 @@
+package com.example.demo.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Company {
+	
+	@Id
+	private int companyCode;
+	private String companyname;
+	private String website;
+	private Long turnover;
+	private String companyCeo;
+	public int getCompanyCode() {
+		return companyCode;
+	}
+	public void setCompanyCode(int companyCode) {
+		this.companyCode = companyCode;
+	}
+	public String getCompanyname() {
+		return companyname;
+	}
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+	public String getWebsite() {
+		return website;
+	}
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	public Long getTurnover() {
+		return turnover;
+	}
+	public void setTurnover(Long turnover) {
+		this.turnover = turnover;
+	}
+	public String getCompanyCeo() {
+		return companyCeo;
+	}
+	public void setCompanyCeo(String companyCeo) {
+		this.companyCeo = companyCeo;
+	}
+	
+
+}

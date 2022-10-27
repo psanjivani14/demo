@@ -1,0 +1,27 @@
+package com.example.demo.service;
+
+import java.util.Set;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Stock;
+
+@Service
+public class StockServiceImpl implements StockService{
+
+	@Override
+	public Set<Stock> getAllStock(int compId) {
+		return null;
+	}
+
+	@Override
+	public boolean deleteStock(int compId) {
+		return false;
+	}
+
+	@Override
+	public boolean addstock(Stock stock) {
+		return false;
+	}
+
+}
