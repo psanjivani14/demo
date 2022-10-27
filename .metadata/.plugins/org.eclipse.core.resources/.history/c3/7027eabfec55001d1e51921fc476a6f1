@@ -25,11 +25,11 @@ public class StockServiceImpl implements StockService{
 		stockRepo.deleteStockData(compId);
 		return true;
 	}
-	
+
 	@Override
 	public boolean addstock(Stock stock) {
 		Stock stock1= new Stock();
-		stock1.setStockPrice(stock.getStockPrice());
+		stock1.setStockName(stock.getStockName());
 		stock1.setComp_code_fk(stock.getComp_code_fk());
 		stock1.setIssueAt(stock.getIssueAt());
 		stockRepo.saveAndFlush(stock1);
