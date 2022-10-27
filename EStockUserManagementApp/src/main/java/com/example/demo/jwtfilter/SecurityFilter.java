@@ -24,12 +24,13 @@ public class SecurityFilter extends GenericFilterBean{
 		HttpServletResponse httpRes = (HttpServletResponse) response;
 		
 		String authHeader = httpreq.getHeader("authorization");
-		if(authHeader!= null || !authHeader.startsWith("Bearer")) {
+		System.out.println("Auth Header:: "+authHeader);
+		if(authHeader == null && !authHeader.startsWith("Bearer") ) {
 			throw new ServletException("Missing or invalid authentication header");
 			
 		}
 		String jwtToken = authHeader.substring(7);
-		Claims claim = Jwts.parser().setSigningKey("mykey").parseClaimsJwt(jwtToken).getBody();
+		Claims claim = Jwts.parser().setSigningKey("mykey").parseClaimsJws(jwtToken).getBody();
 		
 		httpreq.setAttribute("username", claim);
 		

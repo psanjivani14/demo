@@ -60,6 +60,13 @@ public class Company {
 	public void setCompanyCeo(String companyCeo) {
 		this.companyCeo = companyCeo;
 	}
+	
+	public Set<Stock> getStockList() {
+		return stockList;
+	}
+	public void setStockList(Set<Stock> stockList) {
+		this.stockList = stockList;
+	}
 	@Override
 	public String toString() {
 		return "Company [companyCode=" + companyCode + ", companyName=" + companyName + ", website=" + website

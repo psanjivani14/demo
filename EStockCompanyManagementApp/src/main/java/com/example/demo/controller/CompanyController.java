@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exceptions.CompanyCodeAlreadyExistsException;
 import com.example.demo.model.Company;
+import com.example.demo.model.Stock;
 import com.example.demo.responsehandler.MyCustomResponse;
 import com.example.demo.service.CompanyServiceImpl;
+import com.example.demo.service.StockService;
 
 @RestController
 @RequestMapping("api/v1.0/market/company")
@@ -28,15 +31,23 @@ public class CompanyController {
 	@Autowired
 	private CompanyServiceImpl companyService;
 	
+	@Autowired
+	private StockService stockService;
+	
 	@GetMapping("/getAllCompanyDtl")
 	public ResponseEntity<?> getAllCompanyDtl(){
 		
 		List<Company> companyLst = companyService.getAllCompanyDtl();
 		if(companyLst!=null && !companyLst.isEmpty()) {
 			
-			CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.MINUTES);
-			return ResponseEntity.ok().cacheControl(cacheControl).body(MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
-					HttpStatus.OK, companyLst));
+			//CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.MINUTES);
+			//return ResponseEntity.ok().cacheControl(cacheControl).body(MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
+				//	HttpStatus.OK, companyLst));
+			for(Company company : companyLst) {
+				Set<Stock> stockList = stockService.getAllStock(company.getCompanyCode());
+				company.setStockList(stockList);
+			}
+			return new ResponseEntity<List<Company>>(companyLst, HttpStatus.OK);
 		}
 		return  MyCustomResponse.generateCustomResponseformat("could not retrived company data", HttpStatus.CONFLICT, null);
 		
@@ -54,7 +65,7 @@ public class CompanyController {
 	@DeleteMapping("/deleteCompany/{compId}")
 	public ResponseEntity<?> deleteCompany(@PathVariable ("compId") int compId){
 		System.out.println("In method deleteCompany1 "+compId);
-		if(companyService.deleteCompany(compId)) {
+		if(stockService.deleteStock(compId) && companyService.deleteCompany(compId)) {
 			return new ResponseEntity<String>("Company data deleted successfully", HttpStatus.NO_CONTENT);
 		}
 		System.out.println("In method deleteCompany "+compId);

@@ -56,7 +56,7 @@ public class AuthenticationController {
 			mapObj.put("toekn", null);
 			return new ResponseEntity<String>("User credentials are invalid",HttpStatus.UNAUTHORIZED );
 		}
-		return new ResponseEntity<String>("User credentials are valid", HttpStatus.OK);
+		return new ResponseEntity<>(mapObj, HttpStatus.ACCEPTED);
 		
 	}
 
@@ -71,11 +71,11 @@ public class AuthenticationController {
 		if(!flag) {
 			throw new ServletException("Username and password has been used");
 		}else {
-			Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+ 3000000))
+			jwtToken = Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+ 3000000))
 			.signWith(SignatureAlgorithm.HS256, "mykey").compact();
 		}
 		
-		return null;
+		return jwtToken;
 	}
 	
 }
