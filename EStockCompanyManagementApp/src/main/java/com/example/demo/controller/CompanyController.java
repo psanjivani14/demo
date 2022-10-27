@@ -65,7 +65,7 @@ public class CompanyController {
 	@DeleteMapping("/deleteCompany/{compId}")
 	public ResponseEntity<?> deleteCompany(@PathVariable ("compId") int compId){
 		System.out.println("In method deleteCompany1 "+compId);
-		if(stockService.deleteStock(compId) && companyService.deleteCompany(compId)) {
+		if(stockService.deleteStock(compId) & companyService.deleteCompany(compId)) {
 			return new ResponseEntity<String>("Company data deleted successfully", HttpStatus.NO_CONTENT);
 		}
 		System.out.println("In method deleteCompany "+compId);
