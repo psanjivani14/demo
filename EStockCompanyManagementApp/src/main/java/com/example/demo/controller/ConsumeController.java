@@ -7,28 +7,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import com.example.demo.model.Company;
 
 @RestController
 public class ConsumeController {
 
-
 	@PostMapping("/consume-register")
-	public ResponseEntity<?> consumeRegister() throws Exception{
-		
-		RestTemplate restTemp = new RestTemplate();
+	public ResponseEntity<?> consumeRegister(@RequestBody Company company) throws Exception{
 		
 		String baseUrl="http://localhost:8081/auth/user/register-user";
-		
-		ResponseEntity<String> response = null;
+		RestTemplate restTemp = new RestTemplate();
+		String response = null;
 		
 		try {
-			//response = restTemp.exchange(baseUrl, HttpMethod.GET)
-			response = restTemp.exchange(baseUrl, HttpMethod.POST, getHeader(), String.class);
-			System.out.println("Response:::: "+response.getBody());
-			System.out.println("Headers:::: "+response.getHeaders());
-			System.out.println("Status Code:::: "+response.getStatusCodeValue());
+			System.out.println("Inside try:::baseUrl is:: "+baseUrl);
+			response =restTemp.postForObject(baseUrl, company, String.class);
+			System.out.println("Response:::: "+response);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		}catch(Exception e) {
@@ -50,7 +48,8 @@ public class ConsumeController {
 		
 		try {
 			//response = restTemp.exchange(baseUrl, HttpMethod.GET)
-			response = restTemp.exchange(baseUrl, HttpMethod.POST, getHeader(), String.class);
+			//response = restTemp.exchange(baseUrl, HttpMethod.POST, getHeader(), String.class);
+			restTemp.postForObject(baseUrl, , String.class);
 			System.out.println("Response:::: "+response.getBody());
 			System.out.println("Headers:::: "+response.getHeaders());
 			System.out.println("Status Code:::: "+response.getStatusCodeValue());
