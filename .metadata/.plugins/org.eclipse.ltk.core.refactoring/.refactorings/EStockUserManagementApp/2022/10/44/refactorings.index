@@ -1,1 +1,5 @@
 1666873677336	Rename type 'UserService'
+1666880112648	Rename package 'com.example.controller'
+1666880129554	Rename package 'com.example.model'
+1666880139523	Rename package 'com.example.repository'
+1666880152460	Rename package 'com.example.service'

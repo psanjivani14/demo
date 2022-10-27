@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EStockUserManagementAppApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Main class: started successfully ");
 		SpringApplication.run(EStockUserManagementAppApplication.class, args);
 	}
 
