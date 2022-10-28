@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Stock;
@@ -15,11 +16,11 @@ import com.example.demo.model.Stock;
 @Transactional
 public interface StockRepository extends JpaRepository<Stock, Integer>{
 	
-	@Query(value="select s from Stock s where s.comp_code_fk= :compId ")
-	public Set<Stock> getStockList(int compId);
+	@Query(value="select s from Stock s where s.comp_code_fk= :comp_code_fk ")
+	public Set<Stock> getStockList( int comp_code_fk);
 	
 	@Modifying
-	@Query(value="delete from Stock where comp_code_fk = :compId ")
-	public void deleteStockData(int compId);
+	@Query(value="delete from Stock where comp_code_fk= :comp_code_fk ")
+	public void deleteStockData( int comp_code_fk);
 
 }

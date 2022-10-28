@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Company {
 	
@@ -34,13 +36,14 @@ public class Company {
 		this.stockPrice = stockPrice;
 	}
 
-
+	@JsonIgnore
 	@OneToMany(targetEntity = Stock.class)
 	private Set<Stock> stockList;
 	
 	
-	public void setCompanyName(String companyName) {
+	public String setCompanyName(String companyName) {
 		this.companyName = companyName;
+		return companyName;
 	}
 	public String getWebsite() {
 		return website;

@@ -50,9 +50,9 @@ public class StockController {
 		
 	}
 	
-	@GetMapping("/getAllStocks")
-	public ResponseEntity<?> getAllStock(@RequestParam ("compID") int compId){
-		Set<Stock> stocklist=  stockService.getAllStock(compId);
+	@GetMapping("/getAllStocks/{compid}")
+	public ResponseEntity<?> getAllStock(@PathVariable ("compid") int compid){
+		Set<Stock> stocklist=  stockService.getAllStock(compid);
 		if(stocklist!=null && !stocklist.isEmpty()) {
 			CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.MINUTES);
 			return new ResponseEntity<Object>(stocklist, HttpStatus.OK);
