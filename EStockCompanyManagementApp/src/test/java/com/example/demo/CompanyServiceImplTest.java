@@ -1,7 +1,9 @@
 package com.example.demo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.example.demo.model.Company;
@@ -56,14 +57,37 @@ public class CompanyServiceImplTest {
 				assertEquals(companyList, compLst);
 				
 	}
-	
+	@Test
 	public void getAllCompanyDtlsFailure() throws Exception {
 		
-		companyList.add(null);
-		when(companyRepo.findAll()).thenReturn(companyList);
+		when(companyRepo.findAll()).thenReturn(null);
 		
 		List<Company> compLst = compServiceImpl.getAllCompanyDtl(); 
-		assertEquals(companyList, );
+		assertNull(compLst);
 		
-}
+     }
+	
+	@Test
+	public void addCompanySuccess() throws Exception {
+		
+				Company company = new Company();
+				company.setCompanyCode(101);
+				company.setCompanyName("Wipro");
+				
+				//companyList.add(company);
+				when(companyRepo.save(any())).thenReturn(company);
+				
+				Company c1= compServiceImpl.addCompany(company);
+				assertEquals(company, c1);
+				
+	}
+	@Test
+	public void addCompanyFailure() throws Exception {
+		
+		when(companyRepo.save(any())).thenReturn(null);
+		//Company company = new Company();
+		Company c1= compServiceImpl.addCompany(null);
+		assertNull(c1);
+		
+     }
 }
