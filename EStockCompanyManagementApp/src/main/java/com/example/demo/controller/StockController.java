@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exceptions.CompanyNotExistsException;
 import com.example.demo.model.Company;
 import com.example.demo.model.Stock;
 import com.example.demo.responsehandler.MyCustomResponse;
@@ -32,7 +33,7 @@ public class StockController {
 	
 	@PostMapping("/addStock/{compId}")
 	public ResponseEntity<?> addstock(@PathVariable ("compId") int compId, 
-			@RequestBody Stock stock){
+			@RequestBody Stock stock) throws CompanyNotExistsException{
 		Company compexists = compService.getCompanyByCode(compId);
 		if(compexists!=null) {
 			

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.exceptions.CompanyCodeAlreadyExistsException;
+import com.example.demo.exceptions.CompanyNotExistsException;
 import com.example.demo.model.Company;
 
 public interface CompanyService {
@@ -11,6 +12,6 @@ public interface CompanyService {
 	public Company addCompany(Company company) throws CompanyCodeAlreadyExistsException;
 	public boolean deleteCompany(int compCode);
 	public boolean updateCompany(Company company);
-	public Company getCompanyByCode(int compCode);
+	public Company getCompanyByCode(int compCode) throws CompanyNotExistsException;
 
 }

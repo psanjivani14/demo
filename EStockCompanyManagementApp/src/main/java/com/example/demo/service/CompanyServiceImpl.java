@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exceptions.CompanyCodeAlreadyExistsException;
+import com.example.demo.exceptions.CompanyNotExistsException;
 import com.example.demo.model.Company;
 import com.example.demo.repository.CompanyRepository;
 
@@ -49,6 +50,7 @@ public class CompanyServiceImpl implements CompanyService{
 		Company comp1= companyRepo.getById(company.getCompanyCode());
 		if(comp1!=null) {
 			comp1.setCompanyCeo(company.getCompanyCeo());
+			comp1.setCompanyName(company.getCompanyName());
 			companyRepo.saveAndFlush(comp1);
 			return true;
 		}
@@ -56,12 +58,12 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public Company getCompanyByCode(int compCode) {
+	public Company getCompanyByCode(int compCode) throws CompanyNotExistsException {
 		Optional<Company> opObj= companyRepo.findById(compCode);
 		if(opObj.isPresent()) {
 			return opObj.get();
 		}
-		return null;
+		throw new CompanyNotExistsException();
 	}
 
 }

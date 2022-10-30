@@ -31,7 +31,7 @@ public class UserController {
 		System.out.println("Inside addUser controller :: "+user);
 		User user1 = userService.addUser(user);
 		if(user1!=null) {
-			return new ResponseEntity<User>(user1, HttpStatus.CREATED);
+			return new ResponseEntity<String>("User created successfully..!!", HttpStatus.CREATED);
 		}
 		return new ResponseEntity<String>("User not added successfully ", HttpStatus.INTERNAL_SERVER_ERROR);
 		

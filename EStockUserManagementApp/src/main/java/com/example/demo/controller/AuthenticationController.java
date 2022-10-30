@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.ValidationException;
 import com.example.demo.model.User;
+import com.example.demo.responsehandler.CustomResponseHandler;
 import com.example.demo.service.UserService;
 
 import io.jsonwebtoken.Jwts;
@@ -52,12 +52,16 @@ public class AuthenticationController {
 			String jwtToken = generateToken(user.getUsername(), user.getPassword());
 			mapObj.put("message", "User successfully logged In");
 			mapObj.put("toekn", jwtToken);
+			CustomResponseHandler.generateCustomResponseformat("User successfully logged In",
+					HttpStatus.OK, mapObj);
 		}catch(Exception ex) {
-			mapObj.put("message", "User not logged In");
+			mapObj.put("message", "Provide valid credentials");
 			mapObj.put("toekn", null);
-			return new ResponseEntity<String>("User credentials are invalid",HttpStatus.UNAUTHORIZED );
+			CustomResponseHandler.generateCustomResponseformat("Provide valid credentials",
+					HttpStatus.UNAUTHORIZED, mapObj);
+			//return new ResponseEntity<String>("User credentials are invalid",HttpStatus.UNAUTHORIZED );
 		}
-	return new ResponseEntity<>(mapObj, HttpStatus.ACCEPTED);
+	   return new ResponseEntity<>(mapObj, HttpStatus.ACCEPTED);
 		
 	}
 

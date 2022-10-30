@@ -40,12 +40,14 @@ public class CompanyController {
 		
 		List<Company> companyLst = companyService.getAllCompanyDtl();
 		if(companyLst!=null && !companyLst.isEmpty()) {
-			
+			System.out.println("inside if:: "+companyLst.toString());
 			//CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.MINUTES);
 			//return ResponseEntity.ok().cacheControl(cacheControl).body(MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
 				//	HttpStatus.OK, companyLst));
 			for(Company company : companyLst) {
+				System.out.println("inside for each:: "+company.toString());
 				Set<Stock> stockList = stockService.getAllStock(company.getCompanyCode());
+				System.out.println("stockList:: "+stockList);
 				company.setStockList(stockList);
 			}
 			return MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
@@ -68,7 +70,8 @@ public class CompanyController {
 	@DeleteMapping("/deleteCompany/{compId}")
 	public ResponseEntity<?> deleteCompany(@PathVariable ("compId") int compId) throws CompanyNotExistsException {
 		System.out.println("In method deleteCompany1 "+compId);
-		if(companyService.deleteCompany(compId) && stockService.deleteStock(compId) ) {
+		if(companyService.deleteCompany(compId) & stockService.deleteStock(compId) ) {
+			System.out.println("inside:: deleteCompany::Condition satisfied ");
 			return new ResponseEntity<String>("Company data deleted successfully", HttpStatus.NO_CONTENT);
 		}
 		System.out.println("In method deleteCompany end "+compId);
@@ -79,7 +82,7 @@ public class CompanyController {
 	@PutMapping("/updateCompany")
 	public ResponseEntity<?> updatCompany(@RequestBody Company company){
 		if(companyService.updateCompany(company)) {
-			return new ResponseEntity<>(company, HttpStatus.CREATED);
+			return new ResponseEntity<String>("Company details updated successfully.!!", HttpStatus.CREATED);
 		}
 		
 		return new ResponseEntity<String>("Company could be not updated ", HttpStatus.INTERNAL_SERVER_ERROR);

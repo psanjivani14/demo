@@ -27,7 +27,7 @@ public class ConsumeController {
 			System.out.println("Inside try:::baseUrl is:: "+baseUrl);
 			response =restTemp.postForObject(baseUrl, user, String.class);
 			System.out.println("Response:::: "+response);
-			return new ResponseEntity<>(response, HttpStatus.OK);
+			return new ResponseEntity<String>("User registered successfully..!!", HttpStatus.OK);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
