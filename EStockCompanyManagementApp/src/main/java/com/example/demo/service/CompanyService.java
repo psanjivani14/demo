@@ -10,7 +10,7 @@ public interface CompanyService {
 	
 	public List<Company> getAllCompanyDtl();
 	public Company addCompany(Company company) throws CompanyCodeAlreadyExistsException;
-	public boolean deleteCompany(int compCode);
+	public boolean deleteCompany(int compCode) throws CompanyNotExistsException;
 	public boolean updateCompany(Company company);
 	public Company getCompanyByCode(int compCode) throws CompanyNotExistsException;
 

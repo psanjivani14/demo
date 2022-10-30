@@ -40,9 +40,16 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public boolean deleteCompany(int compCode) {
-		companyRepo.deleteById(compCode);
-		return true;
+	public boolean deleteCompany(int compCode) throws CompanyNotExistsException {
+		Optional<Company> opObj= companyRepo.findById(compCode);
+		if(opObj.isPresent()) {
+			companyRepo.deleteById(compCode);
+			return true;
+		}else {
+		// throw new CompanyNotExistsException();
+		}
+		return false;
+		
 	}
 
 	@Override

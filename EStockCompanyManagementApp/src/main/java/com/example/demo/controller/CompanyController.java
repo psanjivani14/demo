@@ -72,7 +72,7 @@ public class CompanyController {
 		System.out.println("In method deleteCompany1 "+compId);
 		if(companyService.deleteCompany(compId) & stockService.deleteStock(compId) ) {
 			System.out.println("inside:: deleteCompany::Condition satisfied ");
-			return new ResponseEntity<String>("Company data deleted successfully", HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>("Company data deleted successfully..!!", HttpStatus.OK);
 		}
 		System.out.println("In method deleteCompany end "+compId);
 		return new ResponseEntity<String>("Company data cannot be deleted", HttpStatus.INTERNAL_SERVER_ERROR);
