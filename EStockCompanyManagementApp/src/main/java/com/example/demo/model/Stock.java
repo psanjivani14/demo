@@ -16,7 +16,7 @@ public class Stock {
 	@GeneratedValue
 	private int tranactionId;
 	
-	private String stockPrice;
+	private double stockPrice;
 	
 	Date issueAt;
 	
@@ -30,11 +30,11 @@ public class Stock {
 		this.tranactionId = tranactionId;
 	}
 
-	public String getStockPrice() {
+	public double getStockPrice() {
 		return stockPrice;
 	}
 
-	public void setStockPrice(String stockPrice) {
+	public void setStockPrice(double stockPrice) {
 		this.stockPrice = stockPrice;
 	}
 

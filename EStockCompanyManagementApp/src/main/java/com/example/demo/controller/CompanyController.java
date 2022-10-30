@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exceptions.CompanyCodeAlreadyExistsException;
+import com.example.demo.exceptions.CompanyNotExistsException;
 import com.example.demo.model.Company;
 import com.example.demo.model.Stock;
 import com.example.demo.responsehandler.MyCustomResponse;
@@ -49,23 +52,23 @@ public class CompanyController {
 			}
 			return new ResponseEntity<List<Company>>(companyLst, HttpStatus.OK);
 		}
-		return  MyCustomResponse.generateCustomResponseformat("could not retrived company data", HttpStatus.CONFLICT, null);
+		return  MyCustomResponse.generateCustomResponseformat("could not retrived company data", HttpStatus.NO_CONTENT, null);
 		
 	}
 	
 	@PostMapping("/addCompany")
-	public ResponseEntity<?> addCompany(@RequestBody Company company) throws CompanyCodeAlreadyExistsException{
+	public ResponseEntity<?> addCompany(@Valid @RequestBody Company company) throws CompanyCodeAlreadyExistsException{
 		if(companyService.addCompany(company)!=null) {
-		return new ResponseEntity<Company>(company, HttpStatus.CREATED);
+			return new ResponseEntity<Company>(company, HttpStatus.CREATED);
 			
 		}
 		return new ResponseEntity<String>("Company object is null", HttpStatus.CONFLICT);
 	}
 	
 	@DeleteMapping("/deleteCompany/{compId}")
-	public ResponseEntity<?> deleteCompany(@PathVariable ("compId") int compId){
+	public ResponseEntity<?> deleteCompany(@PathVariable ("compId") int compId) throws CompanyNotExistsException {
 		System.out.println("In method deleteCompany1 "+compId);
-		if(stockService.deleteStock(compId) && companyService.deleteCompany(compId)) {
+		if(companyService.deleteCompany(compId) && stockService.deleteStock(compId) ) {
 			return new ResponseEntity<String>("Company data deleted successfully", HttpStatus.NO_CONTENT);
 		}
 		System.out.println("In method deleteCompany end "+compId);
@@ -84,7 +87,7 @@ public class CompanyController {
 	}
 	
 	@GetMapping("/getCompanyId/{compId}")
-	public ResponseEntity<?> getCompanyByCode(@PathVariable ("compId") int compCode){
+	public ResponseEntity<?> getCompanyByCode(@PathVariable ("compId") int compCode) throws CompanyNotExistsException{
 		System.out.println("Inside getCompanyByCode controller: "+compCode);
 		Company comp = companyService.getCompanyByCode(compCode);
 		if(comp!=null) {

@@ -41,19 +41,12 @@ public class ConsumeController {
 	public ResponseEntity<?> consumeLogin(@RequestBody User user) throws Exception{
 		
 		RestTemplate restTemp = new RestTemplate();
-		
 		String baseUrl="http://localhost:8081/auth/user/login";
-		
 		String response = null;
 		
 		try {
-			//response = restTemp.exchange(baseUrl, HttpMethod.GET)
-			//response = restTemp.exchange(baseUrl, HttpMethod.POST, getHeader(), String.class);
 			response =restTemp.postForObject(baseUrl, user, String.class);
-			//System.out.println("Response:::: "+response.getBody());
-			//System.out.println("Headers:::: "+response.getHeaders());
-			//System.out.println("Status Code:::: "+response.getStatusCodeValue());
-			System.out.println("Response:::: "+response);
+			System.out.println("Response:::: "+response.toString());
 			return new ResponseEntity<>(response, HttpStatus.OK);
 			
 		}catch(Exception e) {

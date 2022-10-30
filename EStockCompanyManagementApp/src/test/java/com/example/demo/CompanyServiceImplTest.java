@@ -85,8 +85,8 @@ public class CompanyServiceImplTest {
 	public void addCompanyFailure() throws Exception {
 		
 		when(companyRepo.save(any())).thenReturn(null);
-		//Company company = new Company();
-		Company c1= compServiceImpl.addCompany(null);
+		Company company = new Company();
+		Company c1= compServiceImpl.addCompany(company);
 		assertNull(c1);
 		
      }
