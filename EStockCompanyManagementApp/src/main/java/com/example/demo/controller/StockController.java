@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Company;
 import com.example.demo.model.Stock;
+import com.example.demo.responsehandler.MyCustomResponse;
 import com.example.demo.service.CompanyService;
 import com.example.demo.service.StockService;
 
@@ -41,7 +42,7 @@ public class StockController {
 			stock.setComp_code_fk(stock.getComp_code_fk());
 			
 			if(compService.updateCompany(compexists) && stockService.addstock(stock)) {
-				return new ResponseEntity<Stock>(stock, HttpStatus.CREATED);
+				return new ResponseEntity<String>("Stock details saved and updated in Stock and Company table respectively...", HttpStatus.CREATED);
 				
 			}
 		}
@@ -54,7 +55,8 @@ public class StockController {
 		Set<Stock> stocklist=  stockService.getAllStock(compid);
 		if(stocklist!=null && !stocklist.isEmpty()) {
 			CacheControl cacheControl = CacheControl.maxAge(30, TimeUnit.MINUTES);
-			return new ResponseEntity<Object>(stocklist, HttpStatus.OK);
+			 return MyCustomResponse.generateCustomResponseformat("Successfully retrived stock data",
+					HttpStatus.OK, stocklist);
 		}
 		return new ResponseEntity<String>("Stock not available", HttpStatus.NO_CONTENT);
 		

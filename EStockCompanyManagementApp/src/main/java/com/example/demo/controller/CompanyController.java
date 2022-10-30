@@ -2,12 +2,10 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,7 +48,8 @@ public class CompanyController {
 				Set<Stock> stockList = stockService.getAllStock(company.getCompanyCode());
 				company.setStockList(stockList);
 			}
-			return new ResponseEntity<List<Company>>(companyLst, HttpStatus.OK);
+			return MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
+						HttpStatus.OK, companyLst);
 		}
 		return  MyCustomResponse.generateCustomResponseformat("could not retrived company data", HttpStatus.NO_CONTENT, null);
 		
@@ -58,8 +57,9 @@ public class CompanyController {
 	
 	@PostMapping("/addCompany")
 	public ResponseEntity<?> addCompany(@Valid @RequestBody Company company) throws CompanyCodeAlreadyExistsException{
+		System.out.println("Inside addCompany:: "+company.toString());
 		if(companyService.addCompany(company)!=null) {
-			return new ResponseEntity<Company>(company, HttpStatus.CREATED);
+			return new ResponseEntity<String>("Company details stored successfully..!!", HttpStatus.CREATED);
 			
 		}
 		return new ResponseEntity<String>("Company object is null", HttpStatus.CONFLICT);
@@ -92,7 +92,8 @@ public class CompanyController {
 		Company comp = companyService.getCompanyByCode(compCode);
 		if(comp!=null) {
 			System.out.println("inside if:: "+comp.toString());
-			return new ResponseEntity<>(comp, HttpStatus.OK);
+			return MyCustomResponse.generateCustomResponseformat("Successfully retrived company data",
+					HttpStatus.OK, comp);
 		}
 		return new ResponseEntity<String>("Can not fetched company data by using code", HttpStatus.NO_CONTENT);
 		

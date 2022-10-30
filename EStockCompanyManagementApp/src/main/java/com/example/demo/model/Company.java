@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,18 +14,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Company {
 	
 	@Id
-	@NotBlank(message = "Company code should not be null")
+	@NotNull(message = "Company code should not be null")
 	private int companyCode;
-	@NotBlank(message = "Company Name should not be null")
+	@NotNull(message = "Company Name should not be null")
 	private String companyName;
-	@NotBlank(message = "Company website should not be null")
+	@NotNull(message = "Company website should not be null")
 	private String website;
-	@NotBlank(message = "Company turnover should not be null")
+	@NotNull(message = "Company turnover should not be null")
 	@Min(10000001)
 	private Long turnover;
-	@NotBlank(message = "Company ceo name should not be null")
+	@NotNull(message = "Company ceo name should not be null")
 	private String companyCeo;
-	@NotBlank(message = "Company stockPrice should not be null")
+	@NotNull(message = "Company stockPrice should not be null")
 	private double stockPrice;
 	public int getCompanyCode() {
 		return companyCode;
