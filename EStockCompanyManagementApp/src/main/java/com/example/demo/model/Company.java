@@ -31,8 +31,9 @@ public class Company {
 	public int getCompanyCode() {
 		return companyCode;
 	}
-	public void setCompanyCode(int companyCode) {
+	public int setCompanyCode(int companyCode) {
 		this.companyCode = companyCode;
+		return companyCode;
 	}
 	
 	public String getCompanyName() {
@@ -70,8 +71,9 @@ public class Company {
 	public String getCompanyCeo() {
 		return companyCeo;
 	}
-	public void setCompanyCeo(String companyCeo) {
+	public String setCompanyCeo(String companyCeo) {
 		this.companyCeo = companyCeo;
+		return companyCeo;
 	}
 	
 	public Set<Stock> getStockList() {

@@ -33,6 +33,7 @@ public class CompanyServiceImpl implements CompanyService{
 	public Company addCompany(Company company) throws CompanyCodeAlreadyExistsException {
 		Optional<Company> opObj= companyRepo.findById(company.getCompanyCode());
 		if(opObj.isPresent()) {
+			System.out.println("company code is already exists in the database..!");
 			throw new CompanyCodeAlreadyExistsException();
 		}
 		companyRepo.saveAndFlush(company);

@@ -80,7 +80,7 @@ public class CompanyController {
 	}
 	
 	@PutMapping("/updateCompany")
-	public ResponseEntity<?> updatCompany(@RequestBody Company company){
+	public ResponseEntity<?> updatCompany(@RequestBody Company company) throws CompanyNotExistsException{
 		if(companyService.updateCompany(company)) {
 			return new ResponseEntity<String>("Company details updated successfully.!!", HttpStatus.CREATED);
 		}

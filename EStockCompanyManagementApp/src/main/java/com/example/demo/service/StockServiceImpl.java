@@ -18,6 +18,7 @@ public class StockServiceImpl implements StockService{
 	public Set<Stock> getAllStock(int compId) {
 		System.out.println("inside getAllStock: "+compId);
 		Set<Stock> stockLst= stockRepo.getStockList(compId);
+		System.out.println("list of stock detials :: "+stockLst);
 		return stockLst;
 	}
 

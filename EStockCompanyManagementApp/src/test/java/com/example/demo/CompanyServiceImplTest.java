@@ -1,7 +1,9 @@
 package com.example.demo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
 
@@ -43,6 +45,7 @@ public class CompanyServiceImplTest {
 	}
 
 	List<Company> companyList = new ArrayList<>();
+	Company comp1 = new Company();
 	@Test
 	public void getAllCompanyDtlsSuccess() throws Exception {
 		
@@ -81,5 +84,68 @@ public class CompanyServiceImplTest {
 				assertEquals(company, c1);
 				
 	}
+	@Test
+	public void deleteCompanySuccess() throws Exception{
+		Company comp = new Company();
+		comp.setCompanyCode(900);
+		comp.setCompanyName("MI");
+		comp.setCompanyCeo("Nishant");
+		comp.setTurnover(10000001L);
+		
+		boolean flag = compServiceImpl.deleteCompany(comp.getCompanyCode());
+		assertFalse(flag);
+		
+	}
+	
+	@Test
+	public void deleteCompanyFailure() throws Exception{
+		Company comp = new Company();
+		//comp.setCompanyCode(900);
+		comp.setCompanyName("MI");
+		comp.setCompanyCeo("Nishant");
+		comp.setTurnover(10000001L);
+		
+		boolean flag = compServiceImpl.deleteCompany(comp.getCompanyCode());
+		assertFalse(flag);
+		
+	}
+	
+	@Test
+	public void updateCompanySuccess() throws Exception{
+		Company comp = new Company();
+		comp.setCompanyCode(900);
+		comp.setCompanyName("MI");
+		comp.setCompanyCeo("Sanjivani");
+		comp.setTurnover(10000001L);
+		
+		when(companyRepo.save(any())).thenReturn(true);
+		boolean up = compServiceImpl.updateCompany(comp);
+		assertFalse(up);
+		
+	}
+	
+	@Test
+	public void updateCompanyFailure() throws Exception{
+		Company comp = new Company();
+		comp.setCompanyCode(900);
+		comp.setCompanyName("MI");
+		comp.setCompanyCeo("Sanjivani");
+		comp.setTurnover(10000001L);
+		
+		when(companyRepo.save(any())).thenReturn(null);
+		boolean up = compServiceImpl.updateCompany(comp);
+		assertFalse(up);
+		
+	}
+	
+	/*@Test
+	public void addCompanyFailure() throws Exception{
+		
+		when(companyRepo.save(any())).thenReturn(null);
+		int code = comp1.setCompanyCode((Integer) null);
+		comp1.setCompanyCode(code);
+		Company c1= compServiceImpl.addCompany(comp1);
+		assertNull(c1);
+	}*/
 	
 }

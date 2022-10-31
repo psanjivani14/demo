@@ -24,10 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.example.demo.model.Company;
 import com.example.demo.model.Stock;
 import com.example.demo.repository.StockRepository;
-import com.example.demo.service.CompanyServiceImpl;
 import com.example.demo.service.StockServiceImpl;
 
 @AutoConfigureMockMvc
@@ -59,11 +57,11 @@ public class StockServiceImplTest {
 				stock.setStockPrice(1200);
 				
 				stockList.add(stock);
-				//List<Object> lst = Arrays.asList(stockList);
+				List<Object> lst = Arrays.asList(stockList);
 				//when(stockRepo.findAll()).thenReturn(lst);
 				
-				//Set<Stock> stockk = stockServiceImpl.getAllStock(stock.getComp_code_fk()); 
-				//assertEquals(stockList, stockk);
+				Set<Stock> stockk = stockServiceImpl.getAllStock(stock.getComp_code_fk()); 
+				assertEquals(stockList, stockk);
 				
 	}
 	@Test

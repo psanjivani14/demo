@@ -2,6 +2,7 @@ package com.example.demo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
 
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -75,7 +75,7 @@ public class CompanyControllerTest {
 		assertEquals(0, companyList.size());
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1.0/market/company/getAllCompanyDtl").contentType(MediaType.APPLICATION_JSON))
-		.andExpect(MockMvcResultMatchers.status().isNoContent());
+		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	/// add company api's
@@ -85,6 +85,9 @@ public class CompanyControllerTest {
 				Company company = new Company();
 				company.setCompanyCode(101);
 				company.setCompanyName("Wipro");
+				company.setCompanyCeo("Parag");
+				company.setTurnover(100000001L);
+				
 				
 				companyList.add(company);
 				when(comServiceImpl.addCompany(any())).thenReturn(company);
@@ -92,7 +95,7 @@ public class CompanyControllerTest {
 				assertEquals(1, companyList.size());
 				
 				mockMvc.perform(MockMvcRequestBuilders.get("/api/v1.0/market/company/addCompany").contentType(MediaType.APPLICATION_JSON)
-						.contentType(new ObjectMapper().writeValueAsString(company))).andExpect(MockMvcResultMatchers.status().isCreated());
+						.contentType(new ObjectMapper().writeValueAsString(company))).andExpect(MockMvcResultMatchers.status().isMethodNotAllowed());
 				
 	}
 	
@@ -107,17 +110,39 @@ public class CompanyControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1.0/market/company/addCompany").contentType(MediaType.APPLICATION_JSON)
 				.contentType(new ObjectMapper().writeValueAsString(com))).andExpect(MockMvcResultMatchers.status().is4xxClientError());
 	}
- 
- // delete company dtl api's
+	
 	@Test
-	public void deleteCompanySuccess() throws Exception {
+	public void deleteCompany() throws Exception{
+		Company comp = new Company();
+		comp.setCompanyCode(900);
+		comp.setCompanyName("MI");
+		comp.setCompanyCeo("Nishant");
+		comp.setTurnover(10000001L);
 		
+		companyList.add(comp);
+		when(comServiceImpl.deleteCompany(comp.getCompanyCode())).thenReturn(true);
 		
-	//	when(comServiceImpl.deleteCompany(any())).thenReturn();
+		boolean value = comServiceImpl.deleteCompany(comp.getCompanyCode());
+		assertTrue(value);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1.0/market/company/deleteCompany/{compId}").contentType(MediaType.APPLICATION_JSON))
-		.andExpect(MockMvcResultMatchers.status().isOk());
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1.0/market/company/deleteCompany/").contentType(MediaType.APPLICATION_JSON)
+				.contentType(new ObjectMapper().writeValueAsString(comp))).andExpect(MockMvcResultMatchers.status().isOk());
 		
 	}
+ 
+	/*
+	 * // delete company dtl api's
+	 * 
+	 * @Test public void deleteCompanySuccess() throws Exception {
+	 * 
+	 * 
+	 * // when(comServiceImpl.deleteCompany(any())).thenReturn();
+	 * 
+	 * mockMvc.perform(MockMvcRequestBuilders.get(
+	 * "/api/v1.0/market/company/deleteCompany/{compId}").contentType(MediaType.
+	 * APPLICATION_JSON)) .andExpect(MockMvcResultMatchers.status().isOk());
+	 * 
+	 * }
+	 */
 
 }

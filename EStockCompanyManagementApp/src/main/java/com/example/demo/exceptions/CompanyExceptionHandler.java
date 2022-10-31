@@ -9,25 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class CompanyExceptionHandler extends ResponseEntityExceptionHandler{
 	
-	/*
-	 * @ResponseStatus(HttpStatus.BAD_REQUEST)
-	 * 
-	 * @ExceptionHandler(MethodArgumentNotValidException.class) public Map<String,
-	 * String> handleValidationExceptions(MethodArgumentNotValidException ex){
-	 * Map<String, String> errors = new HashMap<String, String>();
-	 * ex.getBindingResult().getAllErrors().forEach((error) -> { String fieldName =
-	 * ((FieldError)error).getField(); String errorMessage =
-	 * error.getDefaultMessage(); errors.put("Name", fieldName);
-	 * errors.put("Message", errorMessage); }); return errors;
-	 * 
-	 * }
-	 */
 	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -43,5 +31,14 @@ public class CompanyExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(value = CompanyCodeAlreadyExistsException.class)
+	public ResponseEntity<?> exception(CompanyCodeAlreadyExistsException ex){
+		return new ResponseEntity<>("Company is already exists in the database", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = CompanyNotExistsException.class)
+	public ResponseEntity<?> exception1(CompanyNotExistsException ex){
+		return new ResponseEntity<>("Company is not exists in the database", HttpStatus.NOT_FOUND);
+	}
 	
 }
